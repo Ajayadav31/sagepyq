@@ -38,7 +38,7 @@ app.use('/api', courseRoutes);   // This will match /api/courses
 app.use('/api', pyqRoutes);      // This will match /api/pyqs
 
 // Start the server
-const port = config.server.port;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
