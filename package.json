@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "predeploy": "echo Skipping build step",
-    "deploy": "gh-pages -d backend/public"
+    "deploy": "gh-pages -d frontend"
   },
   "homepage": "https://ajayadav31.github.io/sagepyq",
   "dependencies": {
