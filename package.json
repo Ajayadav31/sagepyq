@@ -1,9 +1,20 @@
 {
+  "name": "sagepyq",
+  "version": "1.0.0",
+  "description": "SAGE Scholars Hub - Previous Year Question Papers",
+  "main": "index.html",
+  "scripts": {
+    "predeploy": "echo Skipping build step",
+    "deploy": "gh-pages -d backend/public"
+  },
+  "homepage": "https://ajayadav31.github.io/sagepyq",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "mysql2": "^3.14.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
-  
 }
