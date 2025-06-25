@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sage University PYQ</title>
+  <style>
+    /* Global Styles */
+    body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f0f4f7;
+  color: #333;
+}
+
+  
+    h1 {
+      font-size: 36px;
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+  
+    /* Container Styling */
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transform: translateY(20px);
+      animation: slideUp 0.6s ease-out forwards;
+    }
+  
+    /* Select Box Styling */
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #7f8c8d;
+      font-weight: bold;
+    }
+    .main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+    select {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #ecf0f1;
+      transition: background-color 0.3s ease;
+    }
+  
+    select:focus {
+      background: #bdc3c7;
+      outline: none;
+    }
+  
+    /* Button and Link Styling */
+    .pdf-links {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .pdf-links a {
+      display: inline-block;
+      margin: 12px;
+      padding: 12px 24px;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 16px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+  
+    .pdf-links a:hover {
+      background-color: #2980b9;
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+  
+    .pdf-links a:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    /* PDF Preview Styling */
+    .pdf-preview {
+      margin-top: 40px;
+      text-align: center;
+    }
+  
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+  
+    iframe:hover {
+      transform: scale(1.02);
+    }
+  
+    /* Animation Keyframes */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    .footer {
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 15px 0;
+  width: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  text-align: center;
+}
+
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.footer-item {
+  flex: 1 1 300px; /* Each box gets a minimum of 300px */
+  max-width: 400px;
+  text-align: center;
+}
+
+.footer-item strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: #ecf0f1;
+}
+
+.footer-item span {
+  display: block;
+  color: #bdc3c7;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.footer-item a {
+  color: #ecf0f1;
+  text-decoration: none;
+}
+
+.footer-item a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  color: #bdc3c7;
+  font-size: 13px;
+}
+
+  </style>
+  
+</head>
+<body>
+  <main class="main-content">
+  <h1>Welcome to Sage University Previous Year Questions Paper Web</h1>
+
+  <div class="container">
+    <label for="school">Select School:</label>
+    <select id="school" onchange="loadPrograms()">
+      <option value="">-- Select School --</option>
+    </select>
+
+    <label for="program">Select Program:</label>
+    <select id="program" onchange="loadSemesters()">
+      <option value="">-- Select Program --</option>
+    </select>
+
+    <label for="semester">Select Semester:</label>
+    <select id="semester" onchange="loadCourses()">
+      <option value="">-- Select Semester --</option>
+    </select>
+
+    <label for="course">Select Course:</label>
+    <select id="course" onchange="loadYears()">
+      <option value="">-- Select Course --</option>
+    </select>
+
+    <label for="year">Select Year:</label>
+    <select id="year" onchange="loadPapers()">
+      <option value="">-- Select Year --</option>
+    </select>
+
+    <div class="pdf-links" id="pdfLinks"></div>
+    <div class="pdf-preview" id="pdfPreview"></div>
+  </div>
+</main>
+
+  <script>
+    // Load schools on page load
+    window.onload = async () => {
+      const response = await fetch('/api/schools');
+      const schools = await response.json();
+      const schoolSelect = document.getElementById('school');
+      schools.forEach(school => {
+        const option = document.createElement('option');
+        option.value = school.id;
+        option.text = school.name;
+        schoolSelect.appendChild(option);
+      });
+    };
+
+    async function loadPrograms() {
+  const schoolId = document.getElementById('school').value;
+  console.log('loadPrograms triggered, selected schoolId:', schoolId);  // ✅ Add this
+
+  if (!schoolId) {
+    console.warn('No school selected!');
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:3000/api/programs?school_id=${schoolId}`);
+    const programs = await response.json();
+    console.log('Received programs:', programs);  // ✅ Add this
+
+    const programSelect = document.getElementById('program');
+    programSelect.innerHTML = '<option value="">-- Select Program --</option>';
+    programs.forEach(program => {
+      console.log('Appending program:', program);
+      const option = document.createElement('option');
+      option.value = program.id;
+      option.text = program.name;
+      programSelect.appendChild(option);
+    });
+
+    resetDropdowns(['semester', 'course', 'year']);
+    clearResults();
+  } catch (err) {
+    console.error('Error loading programs:', err);  // ✅ Add this
+  }
+}
+
+
+    function loadSemesters() {
+      const semesterSelect = document.getElementById('semester');
+      semesterSelect.innerHTML = '<option value="">-- Select Semester --</option>';
+      for (let i = 1; i <= 8; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.text = `Semester ${i}`;
+        semesterSelect.appendChild(option);
+      }
+      resetDropdowns(['course', 'year']);
+      clearResults();
+    }
+
+    async function loadCourses() {
+      const programId = document.getElementById('program').value;
+      const semester = document.getElementById('semester').value;
+      const response = await fetch(`/api/courses?program_id=${programId}&semester=${semester}`);
+      const courses = await response.json();
+      const courseSelect = document.getElementById('course');
+      courseSelect.innerHTML = '<option value="">-- Select Course --</option>';
+      courses.forEach(course => {
+        const option = document.createElement('option');
+        option.value = course.id;
+        option.text = course.name;
+        courseSelect.appendChild(option);
+      });
+      resetDropdowns(['year']);
+      clearResults();
+    }
+
+    function loadYears() {
+      const yearSelect = document.getElementById('year');
+      const currentYear = new Date().getFullYear();
+      yearSelect.innerHTML = '<option value="">-- Select Year --</option>';
+      for (let y = currentYear; y >= 2021; y--) {
+        const option = document.createElement('option');
+        option.value = y;
+        option.text = y;
+        yearSelect.appendChild(option);
+      }
+      clearResults();
+    }
+
+    async function loadPapers() {
+  const courseId = document.getElementById('course').value;
+  const year = document.getElementById('year').value;
+
+  try {
+    const response = await fetch(`/api/pyqs?course_id=${courseId}&year=${year}`);
+    const data = await response.json();
+    console.log('API response data:', data); // Log the response data
+
+    const pdfLinks = document.getElementById('pdfLinks');
+    const pdfPreview = document.getElementById('pdfPreview');
+    pdfLinks.innerHTML = '';
+    pdfPreview.innerHTML = '';
+
+    if (data.MST1) {
+  const mst1Btn = document.createElement('a');
+  mst1Btn.href = data.MST1;
+  mst1Btn.target = "_blank";
+  mst1Btn.innerText = "Download MST1 Paper";
+  pdfLinks.appendChild(mst1Btn);
+
+  /*const mst1Preview = document.createElement('iframe');
+  mst1Preview.src = data.MST1;
+  pdfPreview.appendChild(mst1Preview);*/
+}
+
+if (data.MST2) {
+  const mst2Btn = document.createElement('a');
+  mst2Btn.href = data.MST2;
+  mst2Btn.target = "_blank";
+  mst2Btn.innerText = "Download MST2 Paper";
+  pdfLinks.appendChild(mst2Btn);
+
+  /*const mst2Preview = document.createElement('iframe');
+  mst2Preview.src = data.MST2;
+  pdfPreview.appendChild(mst2Preview);*/
+}
+
+if (data.ESE) {
+  const eseBtn = document.createElement('a');
+  eseBtn.href = data.ESE;
+  eseBtn.target = "_blank";
+  eseBtn.innerText = "Download ESE Paper";
+  pdfLinks.appendChild(eseBtn);
+
+  /*const esePreview = document.createElement('iframe');
+  esePreview.src = data.ESE;
+  pdfPreview.appendChild(esePreview);*/
+}
+
+if (!data.MST1 && !data.MST2 && !data.ESE) {
+  pdfLinks.innerHTML = "<p>No papers found for the selected course and year.</p>";
+}
+
+  } catch (error) {
+    console.error('Error fetching papers:', error);
+    pdfLinks.innerHTML = "<p>Error loading papers. Please try again later.</p>";
+  }
+}
+
+
+    function resetDropdowns(ids) {
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        el.innerHTML = `<option value="">-- Select ${id.charAt(0).toUpperCase() + id.slice(1)} --</option>`;
+      });
+    }
+
+    function clearResults() {
+      document.getElementById('pdfLinks').innerHTML = '';
+      document.getElementById('pdfPreview').innerHTML = '';
+    }
+  </script>
+  
+  <footer class="footer">
+    <div class="footer-row">
+      <div class="footer-item">
+        <strong>About Group</strong><br>
+        <span>Designed to provide Question Papers, Solutions & Notes for Sage University students</span>
+      </div>
+      <div class="footer-item">
+        <strong>Disclaimer</strong><br>
+        <span>We strive continuously to provide as precisely and as timely contents as possible, however, we do not guarantee the accuracy, completeness, correctness, timeliness, validity, non-obsolescence, non-infringement, non-omission, merchantability or fitness of the contents of this website for any particular purpose.
+
+          Notify us by email if we have published any copyrighted material or incorrect informations. <br>
+        </span>
+      </div>
+      <div class="footer-item">
+        <strong>Contact Info</strong><br>
+        <span>
+          Lake City, Bhopal, M.P<br>
+          📧 <a href="mailto:xyz@gmail.com">xyz@gmail.com</a><br>
+          ☎ <a href="tel:+918251048742">+91 8251048742</a><br>
+        </span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Copyright © by A3 Group <br>
+      All Rights Reserved.
+    </div>
+  </footer>
+    
+</body>
+</html>
