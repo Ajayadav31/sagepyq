@@ -230,7 +230,7 @@
   <script>
     // Load schools on page load
     window.onload = async () => {
-      const response = await fetch('/api/schools');
+      const response = await fetch('https://sagepyq-backend.onrender.com/api/schools');
       const schools = await response.json();
       const schoolSelect = document.getElementById('school');
       schools.forEach(school => {
@@ -289,7 +289,7 @@
     async function loadCourses() {
       const programId = document.getElementById('program').value;
       const semester = document.getElementById('semester').value;
-      const response = await fetch(`/api/courses?program_id=${programId}&semester=${semester}`);
+      const response = await fetch(`https://sagepyq-backend.onrender.com/api/courses?program_id=${programId}&semester=${semester}`);
       const courses = await response.json();
       const courseSelect = document.getElementById('course');
       courseSelect.innerHTML = '<option value="">-- Select Course --</option>';
@@ -321,7 +321,7 @@
   const year = document.getElementById('year').value;
 
   try {
-    const response = await fetch(`/api/pyqs?course_id=${courseId}&year=${year}`);
+    const response = await fetch(`https://sagepyq-backend.onrender.com/api/pyqs?course_id=${courseId}&year=${year}`);
     const data = await response.json();
     console.log('API response data:', data); // Log the response data
 
